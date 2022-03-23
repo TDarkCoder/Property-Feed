@@ -89,7 +89,13 @@ export default {
     methods: {
         applyChanges(reset = false) {
             if (reset) {
-                this.filters = {...initFilters};
+                this.filters = {
+                    ...initFilters,
+                    priceRange: [
+                        this.priceRange.min,
+                        this.priceRange.max,
+                    ]
+                };
             }
 
             this.$emit('change', this.filters);
