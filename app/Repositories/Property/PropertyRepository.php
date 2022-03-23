@@ -14,7 +14,9 @@ class PropertyRepository implements PropertyRepositoryInterface
         $total = $builder->count();
 
         if ($request->page && $request->limit) {
-            $builder->offset($request->page - 1)->take($request->limit);
+            $builder
+                ->offset($request->limit * ($request->page - 1))
+                ->take($request->limit);
         }
 
         $data = $builder->get();

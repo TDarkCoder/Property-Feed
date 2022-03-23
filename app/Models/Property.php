@@ -24,12 +24,14 @@ class Property extends Model
 
     public function scopeFilter(Builder $builder, Request $request): Builder
     {
+        [$minPrice, $maxPrice] = $request->priceRange;
+
         return $builder
             ->when($request->name, fn(Builder $builder, string $name) => $builder->where('name', 'ilike', "%$name%"))
             ->when($request->bedrooms, fn(Builder $builder, int $bedrooms) => $builder->where('bedrooms', $bedrooms))
             ->when($request->bathrooms, fn(Builder $builder, int $bathrooms) => $builder->where('bathrooms', $bathrooms))
             ->when($request->garages, fn(Builder $builder, int $garages) => $builder->where('garages', $garages))
             ->when($request->storeys, fn(Builder $builder, int $storeys) => $builder->where('storeys', $storeys))
-            ->when($request->min_price && $request->max_price, fn(Builder $builder) => $builder->whereBetween('price', [$request->min_price, $request->max_price]));
+            ->when($minPrice && $maxPrice, fn(Builder $builder) => $builder->whereBetween('price', [$minPrice, $maxPrice]));
     }
 }
