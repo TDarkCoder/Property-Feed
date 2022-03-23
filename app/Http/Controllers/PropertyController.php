@@ -14,8 +14,15 @@ class PropertyController extends ApiController
 
     public function index(Request $request): JsonResponse
     {
-        $properties = $this->propertyRepository->get($request);
+        $request->page  = $request->page ?? self::PAGE;
+        $request->limit = $request->limit ?? self::LIMIT;
 
-        return $this->response($properties);
+        $properties = $this->propertyRepository->get($request);
+        $priceRange = $this->propertyRepository->getPriceRange();
+
+        return $this->response([
+            ...$properties,
+            ...$priceRange,
+        ]);
     }
 }
