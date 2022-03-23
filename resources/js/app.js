@@ -6,8 +6,8 @@ import {ElementUI, locale} from './imports';
 
 Vue.use(ElementUI, {locale})
 
-component('example-component', require('./components/property/list.vue').default);
+Vue.component('property', require('./components/property/Property.vue').default);
 
-const app = new Vue({
+new Vue({
     el: '#app',
 });
