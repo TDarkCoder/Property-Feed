@@ -81,7 +81,13 @@ export default {
                         max: Number(data.max),
                     };
                 })
-                .catch(errors => this.$message.error(errors.response.message))
+                .catch(error => {
+                    if (error.response.data.message) {
+                        this.$message.error(error.response.data.message);
+                    } else {
+                        this.$message.error('Unknown server error');
+                    }
+                })
                 .finally(() => this.loading = false)
         },
     },
